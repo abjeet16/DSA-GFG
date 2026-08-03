@@ -1,22 +1,45 @@
 class Solution {
     public String minWindow(String s1, String s2) {
         // code here
-        int resi = -1 , resj = -1;
-        for(int i = 0 ; i < s1.length() ; i ++){
-            int j = i;
-            int k = 0;
-            while(j < s1.length()&&k<s2.length()){
-                if(s1.charAt(j)==s2.charAt(k))k++;
-                j++;
+        int m = s1.length();
+        int n = s2.length();
+        
+        int resL = Integer.MAX_VALUE;
+        int resS = -1;
+        
+        int i = 0;
+        
+        while(i < m){
+            
+            int j = 0;
+            
+            while(i < m){
+                if(s1.charAt(i)==s2.charAt(j))j++;
+                
+                if(j==n)break;
+                
+                i++;
             }
-            if(k==s2.length()){
-                if(resi==-1||(resj-resi)>j-i){
-                    resi = i;
-                    resj = j;
-                }
+            
+            if(i==m)break;
+            
+            int end = i;
+            j = n-1;
+            
+            while(j>=0){
+                if(s1.charAt(i)==s2.charAt(j))j--;
+                i--;
             }
+            
+            i++;
+            if(end-i+1<resL){
+                resS = i;
+                resL = end-i+1;
+            }
+            i++;
         }
-        if(resi==-1)return "";
-        return s1.substring(resi,resj);
+        
+        if(resS==-1)return "";
+        return s1.substring(resS,resS+resL);
     }
 }
